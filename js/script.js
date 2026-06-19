@@ -1,4 +1,4 @@
-/* Frekans Mucizesi Wellness Independent Showcase Script
+/* İyileştirici Frekanslar Wellness Independent Showcase Script
    Fiyat, sepet ve ödeme sistemi özellikle eklenmemiştir.
    Tüm haklar sahiplerine aittir. Independent consultancy platform.
 */
@@ -943,12 +943,12 @@ function renderOverview() {
 
     <section class="overview-warning">
       <div class="container">
-        <p><strong>Yasal Uyarı:</strong> Frekans Mucizesi bağımsız bir tanıtım ve danışmanlık platformudur. Healy markası ve ilgili ürün adları kendi marka sahiplerine aittir. Bu sitedeki bilgiler yalnızca genel bilgilendirme ve wellness amaçlıdır. Ürünler tıbbi teşhis, tedavi, iyileştirme veya hastalık önleme amacıyla sunulmamaktadır. Sağlıkla ilgili konularda doktorunuza danışınız.</p>
+        <p><strong>Yasal Uyarı:</strong> İyileştirici Frekanslar bağımsız bir tanıtım ve danışmanlık platformudur. Healy markası ve ilgili ürün adları kendi marka sahiplerine aittir. Bu sitedeki bilgiler yalnızca genel bilgilendirme ve wellness amaçlıdır. Ürünler tıbbi teşhis, tedavi, iyileştirme veya hastalık önleme amacıyla sunulmamaktadır. Sağlıkla ilgili konularda doktorunuza danışınız.</p>
       </div>
     </section>
   `;
 
-  document.title = `Frekans Mucizesi | ${data.title} Genel Bakış`;
+  document.title = `İyileştirici Frekanslar | ${data.title} Genel Bakış`;
   bindWhatsappButtons();
   observeReveal();
 }
@@ -970,7 +970,7 @@ function renderProductDetailPlaceholder() {
     if (title) title.textContent = `${product.name} - Genel Bakış`;
     if (desc) desc.textContent = product.description + " Bu ürünün detaylı genel bakış içeriği yakında eklenecektir.";
     if (breadcrumbSpan) breadcrumbSpan.textContent = product.name;
-    document.title = `Frekans Mucizesi | ${product.name} Genel Bakış`;
+    document.title = `İyileştirici Frekanslar | ${product.name} Genel Bakış`;
     if (metaDesc) metaDesc.setAttribute("content", `${product.name} detaylı genel bakış sayfası. ${product.description}`);
   }
 
@@ -1219,7 +1219,7 @@ function renderQuizLoading() {
     <div class="quiz-loading">
       <div class="quiz-spinner"></div>
       <p style="font-weight: 600; color: var(--primary); margin: 0;">Seçenekleriniz analiz ediliyor...</p>
-      <p style="font-size: 0.88rem; color: var(--muted); margin: -10px 0 0;">Frekans Mucizesi sizin için en uygun programları hesaplıyor.</p>
+      <p style="font-size: 0.88rem; color: var(--muted); margin: -10px 0 0;">İyileştirici Frekanslar sizin için en uygun programları hesaplıyor.</p>
     </div>
   `;
 
@@ -1307,7 +1307,7 @@ function renderQuizResult() {
   }
 
   // Pre-filled Message
-  const whatsappMsg = `Merhaba, Frekans Mucizesi Asistanı'nı tamamladım. Test sonucunda bana "${recommendation.title}" tavsiye edildi. Bu model ve içindeki program grupları hakkında detaylı bilgi ve danışmanlık alabilir miyim?`;
+  const whatsappMsg = `Merhaba, İyileştirici Frekanslar Asistanı'nı tamamladım. Test sonucunda bana "${recommendation.title}" tavsiye edildi. Bu model ve içindeki program grupları hakkında detaylı bilgi ve danışmanlık alabilir miyim?`;
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMsg)}`;
 
   content.innerHTML = `
