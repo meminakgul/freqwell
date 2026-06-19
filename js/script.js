@@ -1060,6 +1060,7 @@ function init() {
   bindFaq();
   bindWhatsappButtons();
   initQuiz();
+  initWhatsappWidget();
 
   if (page === "home") renderHome();
   if (page === "overview") renderOverview();
@@ -1336,4 +1337,76 @@ function renderQuizResult() {
       renderQuizStep();
     });
   }
+}
+
+function initWhatsappWidget() {
+  if (document.getElementById("waWidget")) return;
+
+  const widget = document.createElement("div");
+  widget.className = "wa-widget";
+  widget.id = "waWidget";
+
+  const defaultMsg = "Merhaba, Healy frekans cihazları ve wellness çözümleri hakkında detaylı bilgi alabilir miyim?";
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(defaultMsg)}`;
+
+  widget.innerHTML = `
+    <div class="wa-popup" id="waPopup" aria-hidden="true">
+      <div class="wa-popup-header">
+        <div class="wa-popup-avatar">💬</div>
+        <div class="wa-popup-info">
+          <span class="wa-popup-name">Destek Asistanı</span>
+          <span class="wa-popup-status"><span class="wa-popup-dot"></span>Çevrimiçi</span>
+        </div>
+        <button class="wa-popup-close" id="waPopupClose" aria-label="Kapat">&times;</button>
+      </div>
+      <div class="wa-popup-body">
+        <div class="wa-popup-msg">
+          Merhaba! 👋 Healy frekans cihazları, program grupları veya size en uygun modelin seçimi hakkında bilgi almak için bana yazabilirsiniz. Nasıl yardımcı olabilirim?
+        </div>
+      </div>
+      <div class="wa-popup-footer">
+        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="wa-popup-btn" id="waPopupBtn">
+          <svg class="wa-icon" viewBox="0 0 24 24">
+            <path fill="#ffffff" d="M12.012 2c-5.506 0-9.988 4.482-9.988 9.988 0 1.758.459 3.414 1.258 4.869l-1.282 4.707 4.819-1.264c1.402.766 2.998 1.202 4.693 1.202 5.506 0 9.988-4.482 9.988-9.988 0-5.506-4.482-9.988-9.988-9.988zm5.725 14.18c-.244.688-1.218 1.25-1.954 1.32-.505.048-1.168.077-3.39-.843-2.842-1.176-4.678-4.068-4.821-4.258-.142-.19-1.144-1.523-1.144-2.909 0-1.385.731-2.067 1.01-2.351.278-.284.61-.355.814-.355.203 0 .407.003.584.012.183.009.431-.07.674.512.247.591.843 2.057.915 2.205.072.148.12.32.02.521-.099.201-.15.32-.3.493-.15.172-.315.385-.45.518-.15.148-.306.309-.133.608.173.299.769 1.267 1.65 2.048.136.12.253.181.393.26.14.079.28.13.433.09.153-.04.664-.287.842-.482.179-.195.239-.329.355-.203.116.126.744.752.871.815.127.063.211.095.314.116.103.021.505-.17.749-.858z"/>
+          </svg>
+          Sohbete Başla
+        </a>
+      </div>
+    </div>
+    <button class="wa-floating-btn" id="waFloatingBtn" aria-label="WhatsApp Destek Hattı">
+      <svg class="wa-floating-icon" viewBox="0 0 24 24" width="30" height="30">
+        <path fill="#ffffff" d="M12.012 2c-5.506 0-9.988 4.482-9.988 9.988 0 1.758.459 3.414 1.258 4.869l-1.282 4.707 4.819-1.264c1.402.766 2.998 1.202 4.693 1.202 5.506 0 9.988-4.482 9.988-9.988 0-5.506-4.482-9.988-9.988-9.988zm5.725 14.18c-.244.688-1.218 1.25-1.954 1.32-.505.048-1.168.077-3.39-.843-2.842-1.176-4.678-4.068-4.821-4.258-.142-.19-1.144-1.523-1.144-2.909 0-1.385.731-2.067 1.01-2.351.278-.284.61-.355.814-.355.203 0 .407.003.584.012.183.009.431-.07.674.512.247.591.843 2.057.915 2.205.072.148.12.32.02.521-.099.201-.15.32-.3.493-.15.172-.315.385-.45.518-.15.148-.306.309-.133.608.173.299.769 1.267 1.65 2.048.136.12.253.181.393.26.14.079.28.13.433.09.153-.04.664-.287.842-.482.179-.195.239-.329.355-.203.116.126.744.752.871.815.127.063.211.095.314.116.103.021.505-.17.749-.858z"/>
+      </svg>
+    </button>
+  `;
+
+  document.body.appendChild(widget);
+
+  const floatingBtn = document.getElementById("waFloatingBtn");
+  const popup = document.getElementById("waPopup");
+  const closeBtn = document.getElementById("waPopupClose");
+
+  floatingBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popup.classList.toggle("active");
+    const isActive = popup.classList.contains("active");
+    popup.setAttribute("aria-hidden", !isActive);
+  });
+
+  closeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    popup.classList.remove("active");
+    popup.setAttribute("aria-hidden", "true");
+  });
+
+  popup.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  document.addEventListener("click", () => {
+    if (popup.classList.contains("active")) {
+      popup.classList.remove("active");
+      popup.setAttribute("aria-hidden", "true");
+    }
+  });
 }

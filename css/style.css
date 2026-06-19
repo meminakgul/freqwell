@@ -1799,3 +1799,197 @@ p {
   }
 }
 
+/* WhatsApp Widget Styles */
+.wa-widget {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 999;
+  font-family: 'Inter', sans-serif;
+}
+
+.wa-floating-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #25D366;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  outline: none;
+}
+
+.wa-floating-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.6);
+}
+
+.wa-floating-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.wa-popup {
+  position: absolute;
+  bottom: 76px;
+  left: 0;
+  width: 320px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(15px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+
+.wa-popup.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.wa-popup-header {
+  background: linear-gradient(135deg, #128C7E, #075E54);
+  color: #ffffff;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.wa-popup-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.wa-popup-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.wa-popup-name {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.wa-popup-status {
+  font-size: 0.75rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wa-popup-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #25D366;
+  border-radius: 50%;
+  display: inline-block;
+  animation: waPulse 1.8s infinite;
+}
+
+.wa-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  line-height: 1;
+}
+
+.wa-popup-close:hover {
+  opacity: 1;
+}
+
+.wa-popup-body {
+  padding: 18px;
+  background-color: rgba(230, 240, 235, 0.4);
+}
+
+.wa-popup-msg {
+  background: #ffffff;
+  padding: 12px 14px;
+  border-radius: 0 14px 14px 14px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  position: relative;
+}
+
+.wa-popup-footer {
+  padding: 12px 18px 18px;
+  background-color: #ffffff;
+}
+
+.wa-popup-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #25D366;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
+  transition: var(--transition);
+}
+
+.wa-popup-btn:hover {
+  background-color: #20ba59;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+}
+
+.wa-icon {
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes waPulse {
+  0% { transform: scale(0.95); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.5; }
+}
+
+@media (max-width: 576px) {
+  .wa-widget {
+    bottom: 20px;
+    left: 20px;
+  }
+  .wa-popup {
+    width: 280px;
+    bottom: 70px;
+  }
+}
+
+
