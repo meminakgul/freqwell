@@ -69,6 +69,7 @@
             <a href="pages/category-overview.html?category=replacements">Yedek / Değişim Ürünleri</a>
           </div>
         </div>
+        <a href="#" id="quizNavBtn">Cihazını Bul 🪄</a>
         <a href="pages/category-overview.html?category=editions">Genel Bakış</a>
         <a href="#faq">SSS</a>
         <a href="#contact">Bizimle İletişime Geç</a>
@@ -269,6 +270,23 @@
       <span>Ürün bilgisi ve sipariş süreci için WhatsApp üzerinden iletişime geçebilirsiniz.</span>
     </div>
   </footer>
+
+  <!-- Frekans Asistanı Modal -->
+  <div class="quiz-modal" id="quizModal" aria-hidden="true">
+    <div class="quiz-modal-overlay" id="quizModalOverlay"></div>
+    <div class="quiz-modal-container">
+      <button class="quiz-close-btn" id="quizCloseBtn" aria-label="Kapat">&times;</button>
+      <div class="quiz-progress-wrapper">
+        <div class="quiz-progress-bar" id="quizProgressBar" style="width: 0%;"></div>
+      </div>
+      <div id="quizContent" class="quiz-content">
+        <!-- JS dinamik olarak soruları dolduracak -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Asistan Floating FAB Butonu -->
+  <button class="quiz-floating-btn" id="quizFloatingBtn" title="Frekans Asistanı">🪄</button>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="js/script.js"></script>

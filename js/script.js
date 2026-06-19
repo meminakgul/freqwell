@@ -1059,6 +1059,7 @@ function init() {
   bindHeaderScroll();
   bindFaq();
   bindWhatsappButtons();
+  initQuiz();
 
   if (page === "home") renderHome();
   if (page === "overview") renderOverview();
@@ -1068,3 +1069,215 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+// FREKANS ASİSTANI (QUIZ) LOGIC
+const QUIZ_QUESTIONS = [
+  {
+    step: 1,
+    title: "Öncelikli odaklanmak istediğiniz wellness alanı nedir?",
+    subtitle: "Size en uygun frekans programlarını belirleyebilmemiz için ana hedefinizi seçin.",
+    options: [
+      { text: "Zihinsel Sakinlik, Stres Yönetimi ve Uyku", value: "sleep-stress", letter: "A" },
+      { text: "Bütünsel Sağlık, Çakra Dengesi ve Genel Zindelik", value: "holistic-chakras", letter: "B" },
+      { text: "Spor, Fiziksel Performans ve Vücut Kondisyonu", value: "fitness-performance", letter: "C" },
+      { text: "Konsantrasyon, İş Verimliliği ve Odaklanma", value: "focus-productivity", letter: "D" },
+      { text: "Cilt Bakımı ve Estetik/Güzellik Rutini", value: "beauty-skin", letter: "E" },
+      { text: "Yaşam Alanımın / Suyun Frekansını Düzenleme", value: "space-water", letter: "F" }
+    ]
+  },
+  {
+    step: 2,
+    title: "Cihazı kimin veya nasıl bir kullanım senaryosu için düşünüyorsunuz?",
+    subtitle: "Uygulama şekli ve cihaz tipini belirlemek için tercih yapın.",
+    options: [
+      { text: "Sadece kendim ve bireysel kullanım için (Taşınabilir Cihaz)", value: "personal", letter: "A" },
+      { text: "Evdeki herkes, evcil hayvanlar ve ortam havası için (Manyetik Alan)", value: "environment", letter: "B" },
+      { text: "Hem kendim hem de ailem/yaşam alanım için tam kapsamlı çözüm", value: "both", letter: "C" }
+    ]
+  },
+  {
+    step: 3,
+    title: "Bütçe veya Paket Seviyesi Tercihiniz Nedir?",
+    subtitle: "Size sunulacak program zenginliği seviyesini seçin.",
+    options: [
+      { text: "Temel ihtiyaçlarımı karşılasın, başlangıç seviyesi olsun.", value: "starter", letter: "A" },
+      { text: "Bütünsel ve dengeli bir orta/üst paket olsun.", value: "balanced", letter: "B" },
+      { text: "En kapsamlı ve profesyonel paket olsun, sınır olmasın.", value: "unlimited", letter: "C" }
+    ]
+  }
+];
+
+let quizCurrentStep = 0;
+let quizAnswers = [];
+
+function initQuiz() {
+  const modal = document.getElementById("quizModal");
+  const navBtn = document.getElementById("quizNavBtn");
+  const floatingBtn = document.getElementById("quizFloatingBtn");
+  const closeBtn = document.getElementById("quizCloseBtn");
+  const overlay = document.getElementById("quizModalOverlay");
+
+  if (!modal) return;
+
+  const openQuiz = (e) => {
+    if (e) e.preventDefault();
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // Lock page scroll
+    quizCurrentStep = 0;
+    quizAnswers = [];
+    renderQuizStep();
+  };
+
+  const closeQuiz = () => {
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = ""; // Unlock page scroll
+  };
+
+  if (navBtn) navBtn.addEventListener("click", openQuiz);
+  if (floatingBtn) floatingBtn.addEventListener("click", openQuiz);
+  if (closeBtn) closeBtn.addEventListener("click", closeQuiz);
+  if (overlay) overlay.addEventListener("click", closeQuiz);
+}
+
+function renderQuizStep() {
+  const content = document.getElementById("quizContent");
+  const progressBar = document.getElementById("quizProgressBar");
+  if (!content) return;
+
+  const totalSteps = QUIZ_QUESTIONS.length;
+  const progressPercent = (quizCurrentStep / totalSteps) * 100;
+  if (progressBar) progressBar.style.width = `${progressPercent}%`;
+
+  if (quizCurrentStep >= totalSteps) {
+    renderQuizLoading();
+    return;
+  }
+
+  const q = QUIZ_QUESTIONS[quizCurrentStep];
+  content.innerHTML = `
+    <h3 class="quiz-step-title">${q.title}</h3>
+    <p class="quiz-step-subtitle">${q.subtitle}</p>
+    <div class="quiz-options">
+      ${q.options.map((opt) => `
+        <button class="quiz-option-card" data-value="${opt.value}">
+          <span class="quiz-option-letter">${opt.letter}</span>
+          <span class="quiz-option-text">${opt.text}</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  content.querySelectorAll(".quiz-option-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      quizAnswers.push(card.dataset.value);
+      quizCurrentStep++;
+      renderQuizStep();
+    });
+  });
+}
+
+function renderQuizLoading() {
+  const content = document.getElementById("quizContent");
+  const progressBar = document.getElementById("quizProgressBar");
+  if (progressBar) progressBar.style.width = "100%";
+  if (!content) return;
+
+  content.innerHTML = `
+    <div class="quiz-loading">
+      <div class="quiz-spinner"></div>
+      <p style="font-weight: 600; color: var(--primary); margin: 0;">Seçenekleriniz analiz ediliyor...</p>
+      <p style="font-size: 0.88rem; color: var(--muted); margin: -10px 0 0;">Frekans Mucizesi sizin için en uygun programları hesaplıyor.</p>
+    </div>
+  `;
+
+  setTimeout(() => {
+    renderQuizResult();
+  }, 1200);
+}
+
+function renderQuizResult() {
+  const content = document.getElementById("quizContent");
+  if (!content) return;
+
+  const goal = quizAnswers[0];
+  const usage = quizAnswers[1];
+  const budget = quizAnswers[2];
+
+  let recommendation = {
+    title: "Healy Evolve",
+    badge: "Bütünsel Denge",
+    desc: "Günlük wellness, aktif spor aktiviteleri ve biyoenerjetik alan dengelemesi için ideal programları sunan çok yönlü frekans paketidir.",
+    details: "Healy Evolve modeli; Gold Cycle programlarına ek olarak Fitness, Biyoenerjetik Uyum 1 & 2 ve Lokal Stimülasyon (ağrı/rahatlama) program gruplarını içerir. Günlük yaşamınızda fiziksel kondisyonunuzu ve zihinsel dengenizi korumanızda en yakın yardımcınız olacaktır."
+  };
+
+  // Decision Logic
+  if (goal === "space-water" || usage === "environment") {
+    recommendation = {
+      title: "MagHealy Pro",
+      badge: "Manyetik Alan Deneyimi",
+      desc: "Yaşam alanınızın atmosferini düzenlemek, içme suyunuzu frekanslarla uyumlamak ve bulunduğunuz ortamda biyoenerjetik denge kurmak için tasarlanmış yenilikçi manyetik alan cihazıdır.",
+      details: "MagHealy Pro; Atmosphere (yaşam alanı/ofis), Water (su kodlama), McMakin (mikroakım manyetik alan) ve Harmonization program uygulamalarını içerir. Özellikle tüm ev halkı, evcil hayvanlar ve ortam dengelenmesi için mükemmel bir alternatiftir."
+    };
+  } else if (goal === "sleep-stress" && budget === "starter") {
+    recommendation = {
+      title: "Healy Discover",
+      badge: "Temel Wellness",
+      desc: "Frekans teknolojisiyle tanışmak ve temel düzeyde zihinsel rahatlama/wellness desteği almak isteyenler için ideal başlangıç modelidir.",
+      details: "Healy Discover modeli; Nuno Nina'nın efsanevi Gold Cycle (Saf, Bakım, Varlık, Enerji, Zihin, Salınım, Denge) program grubunu ve Bioenergetic Support (biyoenerjetik alan koruma) programını içerir. Günlük stresinizi yönetmek ve kaliteli bir uyku altyapısı kurmak için harika bir adımdır."
+    };
+  } else if (goal === "sleep-stress" && (budget === "balanced" || budget === "unlimited")) {
+    recommendation = {
+      title: "Healy Pro",
+      badge: "Üst Seviye Zihinsel Denge",
+      desc: "Zihinsel denge, derin uyku programları ve derin döngü frekanslarına tam erişim sağlamak isteyen kullanıcılar için en gelişmiş modeldir.",
+      details: "Healy Pro; Sleep (Uyku), Mental Balance (Zihinsel Denge), Soul Cycle, Deep Cycle H ve Bioenergetic Vitalization program gruplarını tam kapasite içerir. Yoğun stres, uyku düzensizlikleri ve derin rahatlama ihtiyaçları için en profesyonel çözümleri sunar."
+    };
+  } else if ((goal === "holistic-chakras" || goal === "focus-productivity" || goal === "beauty-skin") && budget === "unlimited") {
+    recommendation = {
+      title: "Healy Pro",
+      badge: "Bütünsel Wellness & Analiz",
+      desc: "Çakralar, meridyenler, kişisel gelişim veri tabanları ve rezonans analiz modüllerine tam erişim sunan, sınır tanımayan en üst düzey Healy paketidir.",
+      details: "Bu gelişmiş paket; Chakras, Meridians 1 & 2, Learning, Job, Beauty, Skin ve tüm HealAdvisor analiz modüllerini (Aura, Rezonans, Success/Personal Coach) kapsar. Kendi biyoenerjetik alanınızı ölçümlemek ve analiz odaklı çalışmak için nihai seçenektir."
+    };
+  } else if (usage === "both") {
+    recommendation = {
+      title: "The Elevate Bundle",
+      badge: "Nihai Wellness Paketi",
+      desc: "Hem kendi bedeninizdeki biyoenerjetik akışı düzenlemek hem de yaşam alanınızın frekansını optimize etmek için iki teknolojiyi birleştiren en kapsamlı çözümdür.",
+      details: "Bu bundle paketi, taşınabilir Healy cihazını (bireysel mikroakım programları için) ve MagHealy cihazını (yaşam alanı ve su aktivasyonu için) bir arada sunar. Hem kişisel wellness hedeflerinize ulaşmanızı hem de aileniz için dengeli bir atmosfer yaratmanızı sağlar."
+    };
+  }
+
+  // Pre-filled Message
+  const whatsappMsg = `Merhaba, Frekans Mucizesi Asistanı'nı tamamladım. Test sonucunda bana "${recommendation.title}" tavsiye edildi. Bu model ve içindeki program grupları hakkında detaylı bilgi ve danışmanlık alabilir miyim?`;
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMsg)}`;
+
+  content.innerHTML = `
+    <div class="quiz-result-card">
+      <span class="quiz-result-badge">${recommendation.badge}</span>
+      <h2 class="quiz-result-title">${recommendation.title}</h2>
+      <p class="quiz-result-desc">${recommendation.desc}</p>
+      <div class="quiz-result-details">
+        <strong>Neden Bu Model?</strong>
+        <p>${recommendation.details}</p>
+      </div>
+      <div class="quiz-result-actions">
+        <a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer" class="primary-btn">
+          WhatsApp'tan Detaylı Bilgi Al
+        </a>
+        <button class="secondary-btn small" id="quizRestartBtn">Testi Yeniden Çöz</button>
+      </div>
+    </div>
+  `;
+
+  const restartBtn = document.getElementById("quizRestartBtn");
+  if (restartBtn) {
+    restartBtn.addEventListener("click", () => {
+      quizCurrentStep = 0;
+      quizAnswers = [];
+      renderQuizStep();
+    });
+  }
+}
