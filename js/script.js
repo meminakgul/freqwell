@@ -778,7 +778,9 @@ function productCard(product, isOverviewPage = false) {
   const badges = product.tags.map((tag) => `<span class="badge">${tag}</span>`).join("");
   return `
     <article class="product-card reveal" data-category="${product.category}">
-      <div class="product-art" aria-hidden="true" style="background-image: url('${imgPrefix}images/${product.slug}.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center; background-color: #fafdfd;"></div>
+      <div class="product-art">
+        <img src="${imgPrefix}images/${product.slug}.jpg" alt="${product.name} - İyileştirici Frekanslar" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; border-radius: inherit;">
+      </div>
       <h3><a href="${pathPrefix}product-detail.html?product=${product.slug}" class="product-title-link">${product.name}</a></h3>
       <p>${product.description}</p>
       <div class="badge-row">${badges}</div>
@@ -949,6 +951,68 @@ function renderOverview() {
   `;
 
   document.title = `İyileştirici Frekanslar | ${data.title} Genel Bakış`;
+
+  // Dynamic SEO Canonical
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonical);
+  }
+  const cleanUrl = `https://iyilestiricifrekanslar.com/pages/category-overview.html?category=${categorySlug}`;
+  canonical.setAttribute('href', cleanUrl);
+
+  // Dynamic Meta Description
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute("content", `${data.title} kategorisindeki ürünleri ve programları inceleyin. ${data.description.substring(0, 150)}...`);
+  }
+
+  // Dynamic OG Tags
+  const setMetaProp = (prop, content) => {
+    let meta = document.querySelector(`meta[property="${prop}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('property', prop);
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', content);
+  };
+  setMetaProp('og:url', cleanUrl);
+  setMetaProp('og:title', `İyileştirici Frekanslar | ${data.title} Genel Bakış`);
+  setMetaProp('og:description', data.description);
+  setMetaProp('og:image', `https://iyilestiricifrekanslar.com/images/healy-discover.jpg`);
+
+  // Dynamic Breadcrumb Schema
+  const oldBreadcrumb = document.getElementById("dynamicCategoryBreadcrumbSchema");
+  if (oldBreadcrumb) oldBreadcrumb.remove();
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Ana Sayfa",
+      "item": "https://iyilestiricifrekanslar.com/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Ürünler",
+      "item": "https://iyilestiricifrekanslar.com/healy-urunleri"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": data.title,
+      "item": cleanUrl
+    }]
+  };
+  const breadcrumbScript = document.createElement("script");
+  breadcrumbScript.type = "application/ld+json";
+  breadcrumbScript.id = "dynamicCategoryBreadcrumbSchema";
+  breadcrumbScript.text = JSON.stringify(breadcrumbSchema);
+  document.head.appendChild(breadcrumbScript);
+
   bindWhatsappButtons();
   observeReveal();
 }
@@ -972,6 +1036,83 @@ function renderProductDetailPlaceholder() {
     if (breadcrumbSpan) breadcrumbSpan.textContent = product.name;
     document.title = `İyileştirici Frekanslar | ${product.name} Genel Bakış`;
     if (metaDesc) metaDesc.setAttribute("content", `${product.name} detaylı genel bakış sayfası. ${product.description}`);
+
+    // Dynamic SEO Canonical Link
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    const cleanUrl = `https://iyilestiricifrekanslar.com/pages/product-detail.html?product=${product.slug}`;
+    canonical.setAttribute('href', cleanUrl);
+
+    // Dynamic Open Graph Tags
+    const setMetaProp = (prop, content) => {
+      let meta = document.querySelector(`meta[property="${prop}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('property', prop);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
+    
+    setMetaProp('og:url', cleanUrl);
+    setMetaProp('og:title', `İyileştirici Frekanslar | ${product.name} Genel Bakış`);
+    setMetaProp('og:description', product.description);
+    setMetaProp('og:image', `https://iyilestiricifrekanslar.com/images/${product.slug}.jpg`);
+
+    // Dynamic JSON-LD Product Schema
+    const oldSchema = document.getElementById("dynamicProductSchema");
+    if (oldSchema) oldSchema.remove();
+
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": product.name,
+      "image": `https://iyilestiricifrekanslar.com/images/${product.slug}.jpg`,
+      "description": product.description,
+      "brand": {
+        "@type": "Brand",
+        "name": "Healy"
+      }
+    };
+    const scriptElement = document.createElement("script");
+    scriptElement.type = "application/ld+json";
+    scriptElement.id = "dynamicProductSchema";
+    scriptElement.text = JSON.stringify(schema);
+    document.head.appendChild(scriptElement);
+
+    // Dynamic Breadcrumb Schema
+    const oldBreadcrumb = document.getElementById("dynamicBreadcrumbSchema");
+    if (oldBreadcrumb) oldBreadcrumb.remove();
+
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Ana Sayfa",
+        "item": "https://iyilestiricifrekanslar.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Ürünler",
+        "item": "https://iyilestiricifrekanslar.com/healy-urunleri"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": product.name,
+        "item": cleanUrl
+      }]
+    };
+    const breadcrumbScript = document.createElement("script");
+    breadcrumbScript.type = "application/ld+json";
+    breadcrumbScript.id = "dynamicBreadcrumbSchema";
+    breadcrumbScript.text = JSON.stringify(breadcrumbSchema);
+    document.head.appendChild(breadcrumbScript);
   }
 
   if (button) {
