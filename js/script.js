@@ -1,9 +1,9 @@
-/* Freqwell Wellness Independent Showcase Script
+/* Frekans Mucizesi Wellness Independent Showcase Script
    Fiyat, sepet ve ödeme sistemi özellikle eklenmemiştir.
    Tüm haklar sahiplerine aittir. Independent consultancy platform.
 */
 
-const WHATSAPP_NUMBER = "905418472512"; // Değiştirilebilir WhatsApp Numarası
+const WHATSAPP_NUMBER = "905456345664"; // Değiştirilebilir WhatsApp Numarası
 
 const CATEGORIES = [
   { slug: "editions", title: "Healy Editions", icon: "◒", description: "Healy cihaz modellerini keşfedin ve kullanım ihtiyacınıza uygun seçenekler hakkında bilgi alın." },
@@ -943,12 +943,12 @@ function renderOverview() {
 
     <section class="overview-warning">
       <div class="container">
-        <p><strong>Yasal Uyarı:</strong> Freqwell bağımsız bir tanıtım ve danışmanlık platformudur. Healy markası ve ilgili ürün adları kendi marka sahiplerine aittir. Bu sitedeki bilgiler yalnızca genel bilgilendirme ve wellness amaçlıdır. Ürünler tıbbi teşhis, tedavi, iyileştirme veya hastalık önleme amacıyla sunulmamaktadır. Sağlıkla ilgili konularda doktorunuza danışınız.</p>
+        <p><strong>Yasal Uyarı:</strong> Frekans Mucizesi bağımsız bir tanıtım ve danışmanlık platformudur. Healy markası ve ilgili ürün adları kendi marka sahiplerine aittir. Bu sitedeki bilgiler yalnızca genel bilgilendirme ve wellness amaçlıdır. Ürünler tıbbi teşhis, tedavi, iyileştirme veya hastalık önleme amacıyla sunulmamaktadır. Sağlıkla ilgili konularda doktorunuza danışınız.</p>
       </div>
     </section>
   `;
 
-  document.title = `Freqwell | ${data.title} Genel Bakış`;
+  document.title = `Frekans Mucizesi | ${data.title} Genel Bakış`;
   bindWhatsappButtons();
   observeReveal();
 }
@@ -970,7 +970,7 @@ function renderProductDetailPlaceholder() {
     if (title) title.textContent = `${product.name} - Genel Bakış`;
     if (desc) desc.textContent = product.description + " Bu ürünün detaylı genel bakış içeriği yakında eklenecektir.";
     if (breadcrumbSpan) breadcrumbSpan.textContent = product.name;
-    document.title = `Freqwell | ${product.name} Genel Bakış`;
+    document.title = `Frekans Mucizesi | ${product.name} Genel Bakış`;
     if (metaDesc) metaDesc.setAttribute("content", `${product.name} detaylı genel bakış sayfası. ${product.description}`);
   }
 
