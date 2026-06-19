@@ -1074,35 +1074,66 @@ document.addEventListener("DOMContentLoaded", init);
 const QUIZ_QUESTIONS = [
   {
     step: 1,
-    title: "Öncelikli odaklanmak istediğiniz wellness alanı nedir?",
-    subtitle: "Size en uygun frekans programlarını belirleyebilmemiz için ana hedefinizi seçin.",
+    title: "Fiziksel Durum ve Destek İhtiyacı",
+    subtitle: "Günlük yaşamınızda fiziksel olarak en çok hangi alanda desteğe ihtiyaç duyuyorsunuz?",
     options: [
-      { text: "Zihinsel Sakinlik, Stres Yönetimi ve Uyku", value: "sleep-stress", letter: "A" },
-      { text: "Bütünsel Sağlık, Çakra Dengesi ve Genel Zindelik", value: "holistic-chakras", letter: "B" },
-      { text: "Spor, Fiziksel Performans ve Vücut Kondisyonu", value: "fitness-performance", letter: "C" },
-      { text: "Konsantrasyon, İş Verimliliği ve Odaklanma", value: "focus-productivity", letter: "D" },
-      { text: "Cilt Bakımı ve Estetik/Güzellik Rutini", value: "beauty-skin", letter: "E" },
-      { text: "Yaşam Alanımın / Suyun Frekansını Düzenleme", value: "space-water", letter: "F" }
+      { text: "Eklem/Kas gerginlikleri veya lokal rahatsızlıklar", value: "pain-tension", letter: "A" },
+      { text: "Kronik yorgunluk ve gün içi düşük enerji seviyesi", value: "fatigue-energy", letter: "B" },
+      { text: "Sindirim rutini ve metabolizma dengesi", value: "digestion-metabolism", letter: "C" },
+      { text: "Baş bölgesi yoğunluğu ve stres kaynaklı kasılmalar", value: "head-stress", letter: "D" },
+      { text: "Herhangi bir fiziksel şikayetim yok, koruyucu wellness", value: "none-physical", letter: "E" }
     ]
   },
   {
     step: 2,
-    title: "Cihazı kimin veya nasıl bir kullanım senaryosu için düşünüyorsunuz?",
-    subtitle: "Uygulama şekli ve cihaz tipini belirlemek için tercih yapın.",
+    title: "Zihinsel Durum ve Uyku Rutini",
+    subtitle: "Zihinsel dengenizi ve uyku kalitenizi en iyi hangisi tanımlıyor?",
     options: [
-      { text: "Sadece kendim ve bireysel kullanım için (Taşınabilir Cihaz)", value: "personal", letter: "A" },
-      { text: "Evdeki herkes, evcil hayvanlar ve ortam havası için (Manyetik Alan)", value: "environment", letter: "B" },
-      { text: "Hem kendim hem de ailem/yaşam alanım için tam kapsamlı çözüm", value: "both", letter: "C" }
+      { text: "Uykuya geçişte zorlanıyorum veya uykum sık bölünüyor", value: "sleep-issues", letter: "A" },
+      { text: "Gün içinde yoğun zihinsel doluluk ve stres hissediyorum", value: "mental-stress", letter: "B" },
+      { text: "Motivasyon eksikliği veya duygusal dalgalanmalar yaşıyorum", value: "emotional-mood", letter: "C" },
+      { text: "Zihinsel olarak sakin, dengeli ve düzenli uyuyorum", value: "calm-balanced", letter: "D" }
     ]
   },
   {
     step: 3,
-    title: "Bütçe veya Paket Seviyesi Tercihiniz Nedir?",
+    title: "Günlük Yaşam Tarzı ve Aktivite",
+    subtitle: "Günlük yaşam rutininizi en iyi hangisi yansıtıyor?",
+    options: [
+      { text: "Masa başı iş, yüksek ekran süresi ve zihinsel yoğunluk", value: "desk-office", letter: "A" },
+      { text: "Aktif spor, fitness ve yoğun fiziksel efor", value: "sport-fitness", letter: "B" },
+      { text: "Yoga, meditasyon, bütünsel wellness çalışmaları", value: "holistic-yoga", letter: "C" },
+      { text: "Yoğun ev/aile düzeni ve sürekli koşturmaca", value: "busy-home", letter: "D" }
+    ]
+  },
+  {
+    step: 4,
+    title: "Enerji Alanı (Aura/Çakra) Analiz Merakı",
+    subtitle: "Çakralarınızın, enerji meridyenlerinizin ve aura durumunuzun anlık ölçüm ve analizini yapmak ister misiniz?",
+    options: [
+      { text: "Evet, mutlaka çakra ve aura analizi yapıp frekans göndermek isterim.", value: "yes-analysis", letter: "A" },
+      { text: "Hayır, sadece cihazın içindeki hazır frekans programlarını çalıştırmak yeterli.", value: "no-analysis", letter: "B" },
+      { text: "Kararsızım, her iki kullanım şeklini de merak ediyorum.", value: "maybe-analysis", letter: "C" }
+    ]
+  },
+  {
+    step: 5,
+    title: "Ortam ve Yaşam Alanı Dengesi",
+    subtitle: "Frekans etkisini bedeninizde mi yoksa ev/ofis ortamında ve suda da hissetmek istersiniz?",
+    options: [
+      { text: "Sadece kendi bedenim için (Taşınabilir mikroakım kullanımı)", value: "personal-only", letter: "A" },
+      { text: "Ev halkı, evcil hayvanlar, oda havası ve su kodlama için (Manyetik Alan)", value: "space-only", letter: "B" },
+      { text: "Hem kendi bedenim hem de tüm yaşam alanım için bir arada (Tam Kapsamlı)", value: "both-combined", letter: "C" }
+    ]
+  },
+  {
+    step: 6,
+    title: "Kapsam ve Paket Seviyesi Tercihiniz",
     subtitle: "Size sunulacak program zenginliği seviyesini seçin.",
     options: [
-      { text: "Temel ihtiyaçlarımı karşılasın, başlangıç seviyesi olsun.", value: "starter", letter: "A" },
-      { text: "Bütünsel ve dengeli bir orta/üst paket olsun.", value: "balanced", letter: "B" },
-      { text: "En kapsamlı ve profesyonel paket olsun, sınır olmasın.", value: "unlimited", letter: "C" }
+      { text: "Temel ihtiyaçlara odaklanan başlangıç paketi.", value: "starter-level", letter: "A" },
+      { text: "Fiyat/Performans odaklı dengeli bir orta-üst paket.", value: "balanced-level", letter: "B" },
+      { text: "En kapsamlı profesyonel yazılım paketleri (Sınır olmasın).", value: "unlimited-level", letter: "C" }
     ]
   }
 ];
@@ -1201,9 +1232,12 @@ function renderQuizResult() {
   const content = document.getElementById("quizContent");
   if (!content) return;
 
-  const goal = quizAnswers[0];
-  const usage = quizAnswers[1];
-  const budget = quizAnswers[2];
+  const physical = quizAnswers[0];
+  const mental = quizAnswers[1];
+  const lifestyle = quizAnswers[2];
+  const analysis = quizAnswers[3];
+  const space = quizAnswers[4];
+  const level = quizAnswers[5];
 
   let recommendation = {
     title: "Healy Evolve",
@@ -1212,41 +1246,63 @@ function renderQuizResult() {
     details: "Healy Evolve modeli; Gold Cycle programlarına ek olarak Fitness, Biyoenerjetik Uyum 1 & 2 ve Lokal Stimülasyon (ağrı/rahatlama) program gruplarını içerir. Günlük yaşamınızda fiziksel kondisyonunuzu ve zihinsel dengenizi korumanızda en yakın yardımcınız olacaktır."
   };
 
-  // Decision Logic
-  if (goal === "space-water" || usage === "environment") {
+  // Karar Ağacı Mantığı (Decision Tree):
+  if (space === "space-only") {
+    // 1. Sadece ortam ve manyetik dengeleme isteyenler -> MagHealy Pro
     recommendation = {
       title: "MagHealy Pro",
       badge: "Manyetik Alan Deneyimi",
-      desc: "Yaşam alanınızın atmosferini düzenlemek, içme suyunuzu frekanslarla uyumlamak ve bulunduğunuz ortamda biyoenerjetik denge kurmak için tasarlanmış yenilikçi manyetik alan cihazıdır.",
-      details: "MagHealy Pro; Atmosphere (yaşam alanı/ofis), Water (su kodlama), McMakin (mikroakım manyetik alan) ve Harmonization program uygulamalarını içerir. Özellikle tüm ev halkı, evcil hayvanlar ve ortam dengelenmesi için mükemmel bir alternatiftir."
+      desc: "Yaşam alanınızın atmosferini düzenlemek, içme suyunuzu frekanslarla uyumlamak ve bulunduğunuz ortamda biyoenerjetik denge kurmak için tasarlanmış manyetik alan cihazıdır.",
+      details: "MagHealy Pro; Atmosphere (yaşam alanı/ofis), Water (su kodlama), McMakin (manyetik alan mikroakım) ve Harmonization program uygulamalarını içerir. Özellikle tüm ev halkı, evcil hayvanlar ve ortam dengelenmesi için mükemmel bir alternatiftir."
     };
-  } else if (goal === "sleep-stress" && budget === "starter") {
+  } else if (space === "both-combined") {
+    // 2. Hem bireysel hem ortam isteyenler -> The Elevate Bundle
     recommendation = {
-      title: "Healy Discover",
-      badge: "Temel Wellness",
-      desc: "Frekans teknolojisiyle tanışmak ve temel düzeyde zihinsel rahatlama/wellness desteği almak isteyenler için ideal başlangıç modelidir.",
-      details: "Healy Discover modeli; Nuno Nina'nın efsanevi Gold Cycle (Saf, Bakım, Varlık, Enerji, Zihin, Salınım, Denge) program grubunu ve Bioenergetic Support (biyoenerjetik alan koruma) programını içerir. Günlük stresinizi yönetmek ve kaliteli bir uyku altyapısı kurmak için harika bir adımdır."
+      title: "The Elevate Bundle",
+      badge: "Nihai Wellness Paketi",
+      desc: "Hem kendi bedeninizdeki biyoenerjetik akışı düzenlemek hem de yaşam alanınızın frekansını optimize etmek için iki teknolojiyi birleştiren en kapsamlı çözümdür.",
+      details: "Bu bundle paketi, taşınabilir Healy cihazını (bireysel mikroakım programları için) ve MagHealy cihazını (yaşam alanı ve su aktivasyonu için) bir arada sunar. Hem kişisel wellness hedeflerinize ulaşmanızı hem de aileniz için dengeli bir atmosfer yaratmanızı sağlar."
     };
-  } else if (goal === "sleep-stress" && (budget === "balanced" || budget === "unlimited")) {
-    recommendation = {
-      title: "Healy Pro",
-      badge: "Üst Seviye Zihinsel Denge",
-      desc: "Zihinsel denge, derin uyku programları ve derin döngü frekanslarına tam erişim sağlamak isteyen kullanıcılar için en gelişmiş modeldir.",
-      details: "Healy Pro; Sleep (Uyku), Mental Balance (Zihinsel Denge), Soul Cycle, Deep Cycle H ve Bioenergetic Vitalization program gruplarını tam kapasite içerir. Yoğun stres, uyku düzensizlikleri ve derin rahatlama ihtiyaçları için en profesyonel çözümleri sunar."
-    };
-  } else if ((goal === "holistic-chakras" || goal === "focus-productivity" || goal === "beauty-skin") && budget === "unlimited") {
+  } else if (analysis === "yes-analysis" || level === "unlimited-level") {
+    // 3. Aura/Çakra analiz modülü isteyenler veya limitsiz paket seçenler -> Healy Pro
     recommendation = {
       title: "Healy Pro",
       badge: "Bütünsel Wellness & Analiz",
       desc: "Çakralar, meridyenler, kişisel gelişim veri tabanları ve rezonans analiz modüllerine tam erişim sunan, sınır tanımayan en üst düzey Healy paketidir.",
       details: "Bu gelişmiş paket; Chakras, Meridians 1 & 2, Learning, Job, Beauty, Skin ve tüm HealAdvisor analiz modüllerini (Aura, Rezonans, Success/Personal Coach) kapsar. Kendi biyoenerjetik alanınızı ölçümlemek ve analiz odaklı çalışmak için nihai seçenektir."
     };
-  } else if (usage === "both") {
+  } else if (mental === "sleep-issues" || mental === "mental-stress") {
+    // 4. Yoğun uyku ve stres problemi olup çakra analizi aramayanlar
+    if (level === "starter-level") {
+      recommendation = {
+        title: "Healy Discover",
+        badge: "Temel Wellness",
+        desc: "Frekans teknolojisiyle tanışmak ve temel düzeyde zihinsel rahatlama/wellness desteği almak isteyenler için ideal başlangıç modelidir.",
+        details: "Healy Discover modeli; Nuno Nina'nın efsanevi Gold Cycle (Saf, Bakım, Varlık, Enerji, Zihin, Salınım, Denge) program grubunu ve Bioenergetic Support (biyoenerjetik alan koruma) programını içerir. Günlük stresinizi yönetmek ve kaliteli bir uyku altyapısı kurmak için harika bir adımdır."
+      };
+    } else {
+      recommendation = {
+        title: "Healy Pro",
+        badge: "Üst Seviye Zihinsel Denge",
+        desc: "Zihinsel denge, derin uyku programları ve derin döngü frekanslarına tam erişim sağlamak isteyen kullanıcılar için en gelişmiş modeldir.",
+        details: "Healy Pro; Sleep (Uyku), Mental Balance (Zihinsel Denge), Soul Cycle, Deep Cycle H ve Bioenergetic Vitalization program gruplarını tam kapasite içerir. Yoğun stres, uyku düzensizlikleri ve derin rahatlama ihtiyaçları için en profesyonel çözümleri sunar."
+      };
+    }
+  } else if (physical === "pain-tension" || lifestyle === "sport-fitness") {
+    // 5. Spor ve fiziksel gerginlikler ön plandaysa -> Healy Evolve
     recommendation = {
-      title: "The Elevate Bundle",
-      badge: "Nihai Wellness Paketi",
-      desc: "Hem kendi bedeninizdeki biyoenerjetik akışı düzenlemek hem de yaşam alanınızın frekansını optimize etmek için iki teknolojiyi birleştiren en kapsamlı çözümdür.",
-      details: "Bu bundle paketi, taşınabilir Healy cihazını (bireysel mikroakım programları için) ve MagHealy cihazını (yaşam alanı ve su aktivasyonu için) bir arada sunar. Hem kişisel wellness hedeflerinize ulaşmanızı hem de aileniz için dengeli bir atmosfer yaratmanızı sağlar."
+      title: "Healy Evolve",
+      badge: "Fiziksel Kondisyon & Denge",
+      desc: "Spor aktivitelerini desteklemek, fiziksel kondisyonu korumak ve eklem/kas gerginliklerini rahatlatmak için tasarlanmış f/p odaklı ideal modeldir.",
+      details: "Healy Evolve modeli; Gold Cycle'a ek olarak Fitness, Biyoenerjetik Uyum 1 & 2 ve Lokal Stimülasyon (ağrı/rahatlama) program gruplarını içerir. Günlük hareket rutininizi desteklemek için en dengeli seçenektir."
+    };
+  } else if (level === "starter-level") {
+    // 6. Genel başlangıç seviyesi istekleri -> Healy Discover
+    recommendation = {
+      title: "Healy Discover",
+      badge: "Temel Biyoenerjetik Uyum",
+      desc: "Temel frekans programlarıyla biyoenerjetik alan korumasına ve zindelik desteğine odaklanan başlangıç paketidir.",
+      details: "Healy Discover modeli; Gold Cycle ve Bioenergetic Support programlarını içerir. Cihazı genel yaşam kalitesini korumak ve frekansları denemek için kullanmak isteyenlere hitap eder."
     };
   }
 
